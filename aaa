@@ -19,3 +19,73 @@ Tóm tắt đóng góp của hệ thống đo lường
 Hướng cải tiến: cảm biến cao cấp, xử lý tín hiệu nâng cao, tích hợp AI
 
 Tài liệu tham khảo
+Giới thiệu
+
+Vai trò của hệ thống đo lường trong điều khiển RDIP
+Mục tiêu của hệ thống đo lường và xử lý tín hiệu
+
+
+
+Tổng quan hệ thống RDIP
+
+Cấu trúc cơ khí và các bậc tự do
+Các biến trạng thái cần đo lường
+
+
+
+Thiết kế hệ thống cảm biến
+
+Lựa chọn cảm biến: encoder, IMU, cảm biến lực, v.v.
+Vị trí lắp đặt và sơ đồ kết nối
+Đặc tính kỹ thuật và độ chính xác
+
+
+
+Hệ thống thu thập dữ liệu
+
+Vi điều khiển hoặc nền tảng xử lý (ví dụ: STM32, Arduino, Raspberry Pi)
+Tần số lấy mẫu và độ phân giải
+Giao thức truyền dữ liệu (SPI, I2C, UART)
+
+
+
+Xử lý tín hiệu
+
+Lọc nhiễu (lọc Kalman, lọc trung bình, v.v.)
+Ước lượng trạng thái (state estimation)
+Đồng bộ hóa dữ liệu từ nhiều cảm biến
+
+
+
+Hiệu chuẩn và kiểm thử cảm biến
+
+Quy trình hiệu chuẩn
+Đánh giá sai số và độ ổn định
+Phân tích độ trễ và ảnh hưởng đến điều khiển
+
+
+
+Tích hợp với hệ thống điều khiển
+
+Giao tiếp với bộ điều khiển MPC-NN
+Cấu trúc phần mềm và luồng dữ liệu
+Đảm bảo thời gian thực và độ tin cậy
+
+
+
+Thực nghiệm và đánh giá
+
+Mô tả thiết lập thực nghiệm
+Kết quả đo lường và xử lý tín hiệu
+Phân tích hiệu năng và độ chính xác
+
+
+
+Kết luận và hướng phát triển
+
+Tóm tắt đóng góp của hệ thống đo lường
+Hướng cải tiến: cảm biến cao cấp, xử lý tín hiệu nâng cao, tích hợp AI
+
+
+
+Tài liệu tham khảo
