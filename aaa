@@ -1,0 +1,21 @@
+１．Giới thiệu
+1.1 Vai trò của hệ thống đo lường trong điều khiển 
+1.2 Mục tiêu của hệ thống đo lường và xử lý tín hiệu
+2. Tổng quan hệ thống con lắc ngược quay 2 bậc tự do RDIP
+2.1 Cấu trúc cơ khí và các bậc tự do
+2.2 Các biến trạng thái cần đo lường
+3. Thiết kế hệ thống cảm biến
+3.1 Lựa chọn cảm biến: encoder, IMU, cảm biến lực, v.v.
+3.2 Vị trí lắp đặt và sơ đồ kết nối
+4. Hệ thống thu thập dữ liệu
+4.1 Vi điều khiển hoặc nền tảng xử lý (STM32)
+4.2 Tần số lấy mẫu và độ phân giải
+4.3 Giao thức truyền dữ liệu (SPI, I2C, UART)
+5. Xử lý tín hiệu
+5.1 Lọc nhiễu (lọc Kalman, lọc trung bình, v.v.)
+5.2 Ước lượng trạng thái (state estimation)
+6. Kết luận và hướng phát triển
+Tóm tắt đóng góp của hệ thống đo lường
+Hướng cải tiến: cảm biến cao cấp, xử lý tín hiệu nâng cao, tích hợp AI
+
+Tài liệu tham khảo
