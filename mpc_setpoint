@@ -1,0 +1,86 @@
+function mpc_quadprog_with_setpoint()
+    % ===== Thông số hệ thống =====
+    A = eye(6); % Giả sử hệ đơn giản
+    B = [0;0;0;1;1;1];
+    C = [1 0 0 0 0 0;
+         0 1 0 0 0 0;
+         0 0 1 0 0 0];
+    
+    % ===== Tham số MPC =====
+    Hp = 10; Hu = 3;
+    Q = diag([50 50 50 1 1 1]); % Trọng số trạng thái
+    R = 0.1; % Trọng số điều khiển
+    
+    % ===== Ràng buộc =====
+    u_min = -5; u_max = 5;
+    theta_max = pi/4;
+    
+    % ===== Trạng thái ban đầu =====
+    x = zeros(6,1);
+    x_ref = [pi/6; pi/6; pi/6; 0; 0; 0]; % Góc mong muốn
+    
+    % ===== Mô phỏng =====
+    Nsim = 50;
+    u_applied = zeros(Nsim,1);
+    x_history = zeros(6,Nsim);
+    
+    for k = 1:Nsim
+        % Tạo ma trận dự đoán F và G
+        [F,G] = predictionMatrices(A,B,Hp,Hu);
+        
+        % Tạo ma trận Q_bar và R_bar
+        Q_bar = kron(eye(Hp), Q);
+        R_bar = kron(eye(Hu), R);
+        
+        % Tính H và f cho quadprog (có tham chiếu)
+        H = G'*Q_bar*G + R_bar;
+        f = G'*Q_bar*(F*x - repmat(x_ref,Hp,1));
+        
+        % ===== Ràng buộc =====
+        lb = u_min*ones(Hu,1);
+        ub = u_max*ones(Hu,1);
+        
+        % Giới hạn góc
+        Aineq = [C*G; -C*G];
+        bineq = [theta_max*ones(Hp*size(C,1),1) - C*F*x;
+                 theta_max*ones(Hp*size(C,1),1) + C*F*x];
+        
+        % ===== Giải QP =====
+        options = optimoptions('quadprog','Display','off');
+        U_opt = quadprog(H,f,Aineq,bineq,[],[],lb,ub,[],options);
+        
+        % Lấy điều khiển đầu tiên
+        u = U_opt(1);
+        u_applied(k) = u;
+        
+        % Cập nhật trạng thái (thêm nhiễu)
+        x = A*x + B*u + 0.01*randn(6,1);
+        x_history(:,k) = x;
+    end
+    
+    % ===== Vẽ kết quả =====
+    figure;
+    subplot(2,1,1);
+    plot(x_history(1:3,:)'); hold on;
+    yline(x_ref(1),'r--','Setpoint');
+    title('Góc theta');
+    legend('\theta_1','\theta_2','\theta_3');
+    
+    subplot(2,1,2);
+    plot(u_applied);
+    title('Tín hiệu điều khiển u');
+end
+
+function [F,G] = predictionMatrices(A,B,Hp,Hu)
+    nx = size(A,1);
+    F = zeros(Hp*nx,nx);
+    G = zeros(Hp*nx,Hu);
+    for i = 1:Hp
+        F((i-1)*nx+1:i*nx,:) = A^i;
+        for j = 1:Hu
+            if i >= j
+                G((i-1)*nx+1:i*nx,j) = A^(i-j)*B;
+            end
+        end
+    end
+end
